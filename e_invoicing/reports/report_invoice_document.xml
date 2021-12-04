@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template
+            id="inherited_invoice_report_barcode"
+            inherit_id="account.report_invoice_document"
+    >
+        <xpath expr="//div[hasclass('mb32')]" position="before">
+            <t t-if="o.company_id.country_id.code == 'SA' and o.move_type in ('out_invoice', 'out_refund')">
+                <div style="float:right;">
+                    <span t-field="o.qr_code_image" t-options='{"widget": "image"}' />
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>
