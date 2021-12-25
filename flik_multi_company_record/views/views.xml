@@ -1,0 +1,62 @@
+<odoo>
+
+    <record model="ir.ui.view" id="view_product_category_form_inherit">
+        <field name="name">product.category.form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='removal_strategy_id']" position="after">
+                 <field name="company_id" readonly="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_res_bank_form_inherit" model="ir.ui.view">
+        <field name="name">res.bank.form</field>
+        <field name="model">res.bank</field>
+        <field name="inherit_id" ref="base.view_res_bank_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='email']" position="after">
+                 <field name="company_id" readonly="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_res_partner_form_inherited" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+<!--            <xpath expr="//sheet/notebook/page[@name='sales_purchases']/field[@name='company_id']" position="attributes">-->
+            <xpath expr="//notebook/page[@name='sales_purchases']/group[@name='container_row_2']/group[@name='misc']/field[@name='company_id']" position="attributes">
+<!--                <attribute name="required">1</attribute>-->
+                <attribute name="attrs">{'readonly': [('parent_id', '!=', False)], 'required': 1}</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="product_category_company_rule" model="ir.rule">
+        <field name="name">Product Category Multi Company Rule</field>
+        <field name="model_id" ref="model_product_category"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id', '=', company_id)]</field>
+    </record>
+
+    <record id="res_bank_company_rule" model="ir.rule">
+        <field name="name">Res Bank Multi Company Rule</field>
+        <field name="model_id" ref="model_res_bank"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id', '=', company_id)]</field>
+    </record>
+
+    <record id="res_partner_company_rule" model="ir.rule">
+        <field name="name">Res Partner Multi Company Rule</field>
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id', '=', company_id)]</field>
+    </record>
+
+</odoo>
